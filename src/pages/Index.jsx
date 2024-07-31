@@ -84,27 +84,35 @@ const Index = () => {
                 });
 
                 return (
-                  <Card key={index} className={`transition-all duration-300 ${activeService === index ? "ring-4 ring-primary" : ""}`}>
-                    <img src={serviceImage} alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
+                  <Card 
+                    key={index} 
+                    className={`transition-all duration-300 ${activeService === index ? "ring-4 ring-primary" : ""}`}
+                  >
+                    <img 
+                      src={serviceImage} 
+                      alt={service.title} 
+                      className="w-full h-48 object-cover rounded-t-lg" 
+                    />
                     <CardHeader>
                       <CardTitle>{service.title}</CardTitle>
-                    <CardDescription>{service.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {service.benefits.map((benefit, i) => (
-                        <li key={i} className="flex items-center">
-                          <CheckCircle className="h-5 w-5 text-primary mr-2" />
-                          <span>{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full">Learn More</Button>
-                  </CardFooter>
-                </Card>
-              ))}
+                      <CardDescription>{service.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {service.benefits.map((benefit, i) => (
+                          <li key={i} className="flex items-center">
+                            <CheckCircle className="h-5 w-5 text-primary mr-2" />
+                            <span>{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full">Learn More</Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         </section>
