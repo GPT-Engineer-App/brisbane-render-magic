@@ -7,12 +7,12 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [
-    { id: 1, src: "/placeholder.svg", alt: "Rendered house 1" },
-    { id: 2, src: "/placeholder.svg", alt: "Rendered house 2" },
-    { id: 3, src: "/placeholder.svg", alt: "Rendered house 3" },
-    { id: 4, src: "/placeholder.svg", alt: "Rendered house 4" },
-    { id: 5, src: "/placeholder.svg", alt: "Rendered house 5" },
-    { id: 6, src: "/placeholder.svg", alt: "Rendered house 6" },
+    { id: 1, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+1", alt: "Rendered house 1" },
+    { id: 2, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+2", alt: "Rendered house 2" },
+    { id: 3, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+3", alt: "Rendered house 3" },
+    { id: 4, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+4", alt: "Rendered house 4" },
+    { id: 5, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+5", alt: "Rendered house 5" },
+    { id: 6, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+6", alt: "Rendered house 6" },
   ];
 
   return (

@@ -55,7 +55,7 @@ const Index = () => {
       <Header />
       <main className="flex-grow">
         <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-24 relative">
-          <img src="/placeholder.svg" alt="Rendered house" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
+          <img src="https://via.placeholder.com/1920x1080.png?text=Rendered+House" alt="Rendered house" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
           <div className="container mx-auto text-center relative z-10">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
@@ -94,7 +94,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {services.map((service, index) => (
                 <Card key={index} className={`transition-all duration-300 ${activeService === index ? "ring-4 ring-primary" : ""}`}>
-                  <img src="/placeholder.svg" alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
+                  <img src={`https://via.placeholder.com/400x200.png?text=${service.title.replace(' ', '+')}`} alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
                   <CardHeader>
                     <CardTitle>{service.title}</CardTitle>
                     <CardDescription>{service.description}</CardDescription>
@@ -126,7 +126,7 @@ const Index = () => {
                 {testimonials.map((testimonial, index) => (
                   <CarouselItem key={testimonial.id}>
                     <Card>
-                      <img src="/placeholder.svg" alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
+                      <img src={`https://via.placeholder.com/400x200.png?text=${testimonial.name.replace(' ', '+')}'s+Project`} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
                       <CardHeader>
                         <CardTitle>{testimonial.name}</CardTitle>
                         <CardDescription>{"★".repeat(testimonial.rating)}</CardDescription>
