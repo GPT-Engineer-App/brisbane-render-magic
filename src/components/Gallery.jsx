@@ -4,10 +4,16 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 
-const fetchGeneratedImage = async (prompt) => {
-  // This is a mock function. In a real application, you would call your image generation API here.
-  // For now, we'll return a placeholder URL
-  return `https://via.placeholder.com/400x300.png?text=${encodeURIComponent(prompt)}`;
+const fetchGalleryImages = async () => {
+  // In a real application, this would be an API call
+  return [
+    { id: 1, src: "/images/rendered-house-1.jpg", alt: "Modern rendered house exterior" },
+    { id: 2, src: "/images/rendered-house-2.jpg", alt: "Contemporary rendered house facade" },
+    { id: 3, src: "/images/rendered-house-3.jpg", alt: "Elegant rendered house front" },
+    { id: 4, src: "/images/rendered-house-4.jpg", alt: "Sleek rendered house architecture" },
+    { id: 5, src: "/images/rendered-house-5.jpg", alt: "Stylish rendered house design" },
+    { id: 6, src: "/images/rendered-house-6.jpg", alt: "Minimalist rendered house style" },
+  ];
 };
 
 const Gallery = () => {
@@ -15,21 +21,7 @@ const Gallery = () => {
 
   const { data: images, isLoading, isError } = useQuery({
     queryKey: ['galleryImages'],
-    queryFn: async () => {
-      const imagePrompts = [
-        "Modern rendered house exterior",
-        "Contemporary rendered house facade",
-        "Stylish rendered house design",
-        "Elegant rendered house front",
-        "Sleek rendered house architecture",
-        "Minimalist rendered house style"
-      ];
-      return Promise.all(imagePrompts.map(async (prompt, index) => ({
-        id: index + 1,
-        src: await fetchGeneratedImage(prompt),
-        alt: `Rendered house ${index + 1}`
-      })));
-    },
+    queryFn: fetchGalleryImages,
   });
 
   return (
