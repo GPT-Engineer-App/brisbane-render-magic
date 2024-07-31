@@ -2,18 +2,35 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchGeneratedImage = async (prompt) => {
+  // This is a mock function. In a real application, you would call your image generation API here.
+  // For now, we'll return a placeholder URL
+  return `https://via.placeholder.com/400x300.png?text=${encodeURIComponent(prompt)}`;
+};
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const images = [
-    { id: 1, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+1", alt: "Rendered house 1" },
-    { id: 2, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+2", alt: "Rendered house 2" },
-    { id: 3, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+3", alt: "Rendered house 3" },
-    { id: 4, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+4", alt: "Rendered house 4" },
-    { id: 5, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+5", alt: "Rendered house 5" },
-    { id: 6, src: "https://via.placeholder.com/400x300.png?text=Rendered+House+6", alt: "Rendered house 6" },
-  ];
+  const { data: images } = useQuery({
+    queryKey: ['galleryImages'],
+    queryFn: async () => {
+      const imagePrompts = [
+        "Modern rendered house exterior",
+        "Contemporary rendered house facade",
+        "Stylish rendered house design",
+        "Elegant rendered house front",
+        "Sleek rendered house architecture",
+        "Minimalist rendered house style"
+      ];
+      return Promise.all(imagePrompts.map(async (prompt, index) => ({
+        id: index + 1,
+        src: await fetchGeneratedImage(prompt),
+        alt: `Rendered house ${index + 1}`
+      })));
+    },
+  });
 
   return (
     <div className="container mx-auto py-12">

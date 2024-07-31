@@ -4,12 +4,24 @@ import Gallery from "../components/Gallery";
 import { Phone, Mail, MapPin, CheckCircle, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
+const fetchGeneratedImage = async (prompt) => {
+  // This is a mock function. In a real application, you would call your image generation API here.
+  // For now, we'll return a placeholder URL
+  return `https://via.placeholder.com/1920x1080.png?text=${encodeURIComponent(prompt)}`;
+};
 
 const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [testimonials, setTestimonials] = useState([]);
+
+  const { data: heroImage } = useQuery({
+    queryKey: ['heroImage'],
+    queryFn: () => fetchGeneratedImage('Modern rendered house exterior'),
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,7 +67,7 @@ const Index = () => {
       <Header />
       <main className="flex-grow">
         <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-24 relative">
-          <img src="https://via.placeholder.com/1920x1080.png?text=Rendered+House" alt="Rendered house" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
+          <img src={heroImage} alt="Rendered house" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
           <div className="container mx-auto text-center relative z-10">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
@@ -92,11 +104,17 @@ const Index = () => {
           <div className="container mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">Our Services</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <Card key={index} className={`transition-all duration-300 ${activeService === index ? "ring-4 ring-primary" : ""}`}>
-                  <img src={`https://via.placeholder.com/400x200.png?text=${service.title.replace(' ', '+')}`} alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
-                  <CardHeader>
-                    <CardTitle>{service.title}</CardTitle>
+              {services.map((service, index) => {
+                const { data: serviceImage } = useQuery({
+                  queryKey: ['serviceImage', service.title],
+                  queryFn: () => fetchGeneratedImage(`${service.title} rendering service`),
+                });
+
+                return (
+                  <Card key={index} className={`transition-all duration-300 ${activeService === index ? "ring-4 ring-primary" : ""}`}>
+                    <img src={serviceImage} alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
+                    <CardHeader>
+                      <CardTitle>{service.title}</CardTitle>
                     <CardDescription>{service.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -123,12 +141,18 @@ const Index = () => {
             <h2 className="text-4xl font-bold mb-12 text-center">What Our Clients Say</h2>
             <Carousel className="w-full max-w-md mx-auto">
               <CarouselContent>
-                {testimonials.map((testimonial, index) => (
-                  <CarouselItem key={testimonial.id}>
-                    <Card>
-                      <img src={`https://via.placeholder.com/400x200.png?text=${testimonial.name.replace(' ', '+')}'s+Project`} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
-                      <CardHeader>
-                        <CardTitle>{testimonial.name}</CardTitle>
+                {testimonials.map((testimonial, index) => {
+                  const { data: testimonialImage } = useQuery({
+                    queryKey: ['testimonialImage', testimonial.id],
+                    queryFn: () => fetchGeneratedImage(`House rendering project for ${testimonial.name}`),
+                  });
+
+                  return (
+                    <CarouselItem key={testimonial.id}>
+                      <Card>
+                        <img src={testimonialImage} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
+                        <CardHeader>
+                          <CardTitle>{testimonial.name}</CardTitle>
                         <CardDescription>{"★".repeat(testimonial.rating)}</CardDescription>
                       </CardHeader>
                       <CardContent>
