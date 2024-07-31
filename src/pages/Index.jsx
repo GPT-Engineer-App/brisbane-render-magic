@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "../components/Header";
+import Gallery from "../components/Gallery";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { CheckCircle, Phone, Mail, MapPin } from "lucide-react";
+
+const fetchGeneratedImage = async (prompt) => {
+  // This is a mock function. In a real application, you would call your image generation API here.
+  return `https://via.placeholder.com/400x300.png?text=${encodeURIComponent(prompt)}`;
+};
 
 const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [testimonials, setTestimonials] = useState([]);
 
-  const { data: heroImage, isLoading: heroImageLoading } = useQuery({
+  const { data: heroImage } = useQuery({
     queryKey: ['heroImage'],
     queryFn: () => fetchGeneratedImage('Modern rendered house exterior'),
   });
@@ -208,19 +218,6 @@ const Index = () => {
                 </CardContent>
               </Card>
             </div>
-          </div>
-        </section>
-        <section id="services" className="py-24 bg-background">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center">Our Services</h2>
-            {/* Add service content here */}
-          </div>
-        </section>
-
-        <section id="contact" className="bg-secondary py-24">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center">Contact Us</h2>
-            {/* Add contact form or contact information here */}
           </div>
         </section>
       </main>
