@@ -16,9 +16,22 @@ const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [testimonials, setTestimonials] = useState([]);
 
-  const { data: heroImage } = useQuery({
+  const { data: heroImage, isLoading: isHeroImageLoading } = useQuery({
     queryKey: ['heroImage'],
     queryFn: () => fetchGeneratedImage('Modern rendered house exterior'),
+  });
+
+  const { data: fetchedTestimonials, isLoading: isTestimonialsLoading } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      // Simulating an API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return [
+        { id: 1, name: "John Doe", content: "Brisbane Rendering Co did an amazing job on our house. The finish is perfect!", rating: 5 },
+        { id: 2, name: "Jane Smith", content: "Professional service from start to finish. Highly recommended!", rating: 5 },
+        { id: 3, name: "Mike Johnson", content: "The team was punctual, clean, and the results exceeded our expectations.", rating: 4 },
+      ];
+    },
   });
 
   useEffect(() => {
@@ -29,18 +42,10 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    // Simulating fetching testimonials from an API
-    const fetchTestimonials = async () => {
-      // In a real application, this would be an API call
-      const mockTestimonials = [
-        { id: 1, name: "John Doe", content: "Brisbane Rendering Co did an amazing job on our house. The finish is perfect!", rating: 5 },
-        { id: 2, name: "Jane Smith", content: "Professional service from start to finish. Highly recommended!", rating: 5 },
-        { id: 3, name: "Mike Johnson", content: "The team was punctual, clean, and the results exceeded our expectations.", rating: 4 },
-      ];
-      setTestimonials(mockTestimonials);
-    };
-    fetchTestimonials();
-  }, []);
+    if (fetchedTestimonials) {
+      setTestimonials(fetchedTestimonials);
+    }
+  }, [fetchedTestimonials]);
 
   const services = [
     {
@@ -59,6 +64,10 @@ const Index = () => {
       benefits: ["Customizable patterns", "Hides imperfections", "Enhances curb appeal"],
     },
   ];
+
+  if (isHeroImageLoading || isTestimonialsLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -132,8 +141,8 @@ const Index = () => {
             <h2 className="text-4xl font-bold mb-12 text-center">What Our Clients Say</h2>
             <Carousel className="w-full max-w-md mx-auto">
               <CarouselContent>
-                {testimonials.map((testimonial, index) => {
-                  const { data: testimonialImage } = useQuery({
+                {testimonials.map((testimonial) => {
+                  const { data: testimonialImage, isLoading: isImageLoading } = useQuery({
                     queryKey: ['testimonialImage', testimonial.id],
                     queryFn: () => fetchGeneratedImage(`House rendering project for ${testimonial.name}`),
                   });
@@ -141,18 +150,22 @@ const Index = () => {
                   return (
                     <CarouselItem key={testimonial.id}>
                       <Card>
-                        <img src={testimonialImage} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
+                        {isImageLoading ? (
+                          <div className="w-full h-48 bg-gray-200 animate-pulse rounded-t-lg"></div>
+                        ) : (
+                          <img src={testimonialImage} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
+                        )}
                         <CardHeader>
                           <CardTitle>{testimonial.name}</CardTitle>
-                        <CardDescription>{"★".repeat(testimonial.rating)}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>{testimonial.content}</p>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                );
-              })}
+                          <CardDescription>{"★".repeat(testimonial.rating)}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <p>{testimonial.content}</p>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  );
+                })}
               </CarouselContent>
               <CarouselPrevious />
               <CarouselNext />
