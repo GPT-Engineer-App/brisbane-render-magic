@@ -107,11 +107,15 @@ const Index = () => {
                     key={index} 
                     className={`transition-all duration-300 ${activeService === index ? "ring-4 ring-primary" : ""}`}
                   >
-                    <img 
-                      src={serviceImage} 
-                      alt={service.title} 
-                      className="w-full h-48 object-cover rounded-t-lg" 
-                    />
+                    {serviceImage ? (
+                      <img 
+                        src={serviceImage} 
+                        alt={service.title} 
+                        className="w-full h-48 object-cover rounded-t-lg" 
+                      />
+                    ) : (
+                      <div className="w-full h-48 bg-gray-200 animate-pulse rounded-t-lg"></div>
+                    )}
                     <CardHeader>
                       <CardTitle>{service.title}</CardTitle>
                       <CardDescription>{service.description}</CardDescription>
@@ -139,22 +143,25 @@ const Index = () => {
         <section className="py-24 bg-background">
           <div className="container mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">What Our Clients Say</h2>
-            <Carousel className="w-full max-w-md mx-auto">
-              <CarouselContent>
-                {testimonials.map((testimonial) => {
-                  const { data: testimonialImage, isLoading: isImageLoading } = useQuery({
-                    queryKey: ['testimonialImage', testimonial.id],
-                    queryFn: () => fetchGeneratedImage(`House rendering project for ${testimonial.name}`),
-                  });
+            {isTestimonialsLoading ? (
+              <div className="w-full max-w-md mx-auto h-64 bg-gray-200 animate-pulse rounded-lg"></div>
+            ) : (
+              <Carousel className="w-full max-w-md mx-auto">
+                <CarouselContent>
+                  {testimonials.map((testimonial) => {
+                    const { data: testimonialImage, isLoading: isImageLoading } = useQuery({
+                      queryKey: ['testimonialImage', testimonial.id],
+                      queryFn: () => fetchGeneratedImage(`House rendering project for ${testimonial.name}`),
+                    });
 
-                  return (
-                    <CarouselItem key={testimonial.id}>
-                      <Card>
-                        {isImageLoading ? (
-                          <div className="w-full h-48 bg-gray-200 animate-pulse rounded-t-lg"></div>
-                        ) : (
-                          <img src={testimonialImage} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
-                        )}
+                    return (
+                      <CarouselItem key={testimonial.id}>
+                        <Card>
+                          {isImageLoading ? (
+                            <div className="w-full h-48 bg-gray-200 animate-pulse rounded-t-lg"></div>
+                          ) : (
+                            <img src={testimonialImage} alt={`${testimonial.name}'s project`} className="w-full h-48 object-cover rounded-t-lg" />
+                          )}
                         <CardHeader>
                           <CardTitle>{testimonial.name}</CardTitle>
                           <CardDescription>{"★".repeat(testimonial.rating)}</CardDescription>

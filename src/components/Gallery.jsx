@@ -32,28 +32,35 @@ const Gallery = () => {
     },
   });
 
-  if (isLoading) return <div className="text-center">Loading...</div>;
-  if (isError) return <div className="text-center">Error loading images</div>;
-
   return (
     <div className="container mx-auto py-12">
       <h2 className="text-4xl font-bold mb-8 text-center">Our Work</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {images && images.map((image) => (
-          <motion.div
-            key={image.id}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setSelectedImage(image)}
-          >
-            <img
-              src={image.src}
-              alt={image.alt}
-              className="w-full h-64 object-cover rounded-lg cursor-pointer"
-            />
-          </motion.div>
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="w-full h-64 bg-gray-200 animate-pulse rounded-lg"></div>
+          ))}
+        </div>
+      ) : isError ? (
+        <div className="text-center text-red-500">Error loading images. Please try again later.</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {images && images.map((image) => (
+            <motion.div
+              key={image.id}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSelectedImage(image)}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-64 object-cover rounded-lg cursor-pointer"
+              />
+            </motion.div>
+          ))}
+        </div>
+      )}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
