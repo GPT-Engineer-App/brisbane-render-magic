@@ -4,6 +4,7 @@ import Gallery from "../components/Gallery";
 import ContactForm from "../components/ContactForm";
 import Footer from "../components/Footer";
 import { Button } from "@/components/ui/button";
+import AuthForms from "../components/AuthForms";
 
 const Index = () => {
   return (
@@ -44,6 +45,15 @@ const Index = () => {
         </section>
 
         <Gallery />
+
+        <section id="auth" className="py-16 bg-muted">
+          <div className="container mx-auto">
+            <h2 className="text-4xl font-bold mb-8 text-center">User Authentication</h2>
+            <div className="flex justify-center">
+              <AuthForms />
+            </div>
+          </div>
+        </section>
 
         <ContactForm />
       </main>
