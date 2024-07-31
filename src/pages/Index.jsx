@@ -141,7 +141,8 @@ const Index = () => {
                       </CardContent>
                     </Card>
                   </CarouselItem>
-                ))}
+                );
+              })}
               </CarouselContent>
               <CarouselPrevious />
               <CarouselNext />
