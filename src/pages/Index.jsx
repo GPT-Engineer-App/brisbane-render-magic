@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
+import Gallery from "../components/Gallery";
 import { Phone, Mail, MapPin, CheckCircle, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -141,6 +142,10 @@ const Index = () => {
               <CarouselNext />
             </Carousel>
           </div>
+        </section>
+
+        <section id="gallery" className="bg-background py-24">
+          <Gallery />
         </section>
 
         <section id="contact" className="bg-secondary py-24">
