@@ -70,9 +70,10 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow">
+    <>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow">
         <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-24">
           <div className="container mx-auto text-center">
             <h1 className="text-5xl font-bold mb-6">
@@ -247,6 +248,7 @@ const Index = () => {
         </div>
       </footer>
     </div>
+    </>
   );
 };
 
