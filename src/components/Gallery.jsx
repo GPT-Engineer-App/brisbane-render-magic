@@ -13,7 +13,7 @@ const fetchGeneratedImage = async (prompt) => {
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const { data: images } = useQuery({
+  const { data: images, isLoading, isError } = useQuery({
     queryKey: ['galleryImages'],
     queryFn: async () => {
       const imagePrompts = [
@@ -32,11 +32,14 @@ const Gallery = () => {
     },
   });
 
+  if (isLoading) return <div className="text-center">Loading...</div>;
+  if (isError) return <div className="text-center">Error loading images</div>;
+
   return (
     <div className="container mx-auto py-12">
       <h2 className="text-4xl font-bold mb-8 text-center">Our Work</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {images.map((image) => (
+        {images && images.map((image) => (
           <motion.div
             key={image.id}
             whileHover={{ scale: 1.05 }}

@@ -18,7 +18,7 @@ const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [testimonials, setTestimonials] = useState([]);
 
-  const { data: heroImage } = useQuery({
+  const { data: heroImage, isLoading: heroImageLoading } = useQuery({
     queryKey: ['heroImage'],
     queryFn: () => fetchGeneratedImage('Modern rendered house exterior'),
   });
@@ -67,7 +67,9 @@ const Index = () => {
       <Header />
       <main className="flex-grow">
         <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-24 relative">
-          <img src={heroImage} alt="Rendered house" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
+          {!heroImageLoading && heroImage && (
+            <img src={heroImage} alt="Rendered house" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
+          )}
           <div className="container mx-auto text-center relative z-10">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}

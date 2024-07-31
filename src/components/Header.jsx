@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Building2, Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../components/ThemeProvider";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
