@@ -22,6 +22,7 @@ const Header = () => {
   const menuItems = [
     { href: "#services", label: "Services" },
     { href: "#gallery", label: "Gallery" },
+    { href: "#auth", label: "Login/Register" },
     { href: "#contact", label: "Contact" },
   ];
 
